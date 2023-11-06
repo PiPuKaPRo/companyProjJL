@@ -9,6 +9,10 @@ public class Department {
         this.numberOfEmployees = 0;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

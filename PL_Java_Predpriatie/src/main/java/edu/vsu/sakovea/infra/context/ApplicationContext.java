@@ -1,6 +1,7 @@
-package org.springframework.context;
+package main.java.edu.vsu.sakovea.infra.context;
 
-import org.springframework.beans.factory.BeanFactory;
+
+import main.java.edu.vsu.sakovea.infra.beans.factory.BeanFactory;
 import org.springframework.context.event.ContextClosedEvent;
 
 import java.lang.reflect.InvocationTargetException;

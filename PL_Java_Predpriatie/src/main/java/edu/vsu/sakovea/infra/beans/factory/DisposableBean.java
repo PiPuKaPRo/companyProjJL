@@ -1,4 +1,4 @@
-package org.springframework.beans.factory;
+package main.java.edu.vsu.sakovea.infra.beans.factory;
 
 public interface DisposableBean {
     void destroy();

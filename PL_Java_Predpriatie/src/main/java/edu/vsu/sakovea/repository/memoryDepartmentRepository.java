@@ -1,5 +1,6 @@
 package main.java.edu.vsu.sakovea.repository;
 
+import main.java.edu.vsu.sakovea.infra.beans.factory.stereotype.EvgComponent;
 import main.java.edu.vsu.sakovea.model.Department;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@EvgComponent
 public class memoryDepartmentRepository implements DepartmentRepository{
     private Map<String, Department> departmentStorage = new HashMap<>();
 

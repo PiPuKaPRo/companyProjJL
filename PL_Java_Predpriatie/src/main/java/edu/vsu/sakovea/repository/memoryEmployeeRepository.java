@@ -1,11 +1,12 @@
 package main.java.edu.vsu.sakovea.repository;
 
+import main.java.edu.vsu.sakovea.infra.beans.factory.stereotype.EvgComponent;
 import main.java.edu.vsu.sakovea.model.Department;
 import main.java.edu.vsu.sakovea.model.Employee;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@EvgComponent
 public class memoryEmployeeRepository implements EmployeeRepository {
     private List<Employee> employeeStorage = new ArrayList<>();
 

@@ -1,9 +1,10 @@
-package org.springframework.beans.factory;
+package main.java.edu.vsu.sakovea.infra.beans.factory;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.beans.factory.stereotype.Component;
-import org.springframework.beans.factory.stereotype.Service;
+
+import main.java.edu.vsu.sakovea.infra.beans.factory.annotation.EvgAutowired;
+import main.java.edu.vsu.sakovea.infra.beans.factory.config.BeanPostProcessor;
+import main.java.edu.vsu.sakovea.infra.beans.factory.stereotype.EvgComponent;
+import main.java.edu.vsu.sakovea.infra.beans.factory.stereotype.EvgService;
 
 import javax.annotation.PreDestroy;
 import java.io.File;
@@ -57,7 +58,7 @@ public class BeanFactory {
 
                         Class classObject = Class.forName(basePackage + "." + className);
 
-                        if (classObject.isAnnotationPresent(Component.class) || classObject.isAnnotationPresent(Service.class)) {
+                        if (classObject.isAnnotationPresent(EvgComponent.class) || classObject.isAnnotationPresent(EvgService.class)) {
                             System.out.println("Component: " + classObject);
 
                             Object instance = classObject.newInstance();//=new CustomClass()
@@ -77,7 +78,7 @@ public class BeanFactory {
 
         for (Object object : singletons.values()) {
             for (Field field : object.getClass().getDeclaredFields()) {
-                if (field.isAnnotationPresent(Autowired.class)) {
+                if (field.isAnnotationPresent(EvgAutowired.class)) {
 
                     for (Object dependency : singletons.values()) {
                         if (dependency.getClass().equals(field.getType())) {
