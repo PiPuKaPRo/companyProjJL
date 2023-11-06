@@ -12,6 +12,10 @@ public class EmployeeService {
     @EvgAutowired
     private EmployeeRepository employeeRepository;
 
+    public void setEmployeeRepository(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
     public void addEmployee(Employee employee, Department department) {
         employeeRepository.addEmployee(employee, department);
     }

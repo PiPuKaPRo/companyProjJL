@@ -14,6 +14,14 @@ public class CompanyService {
     @EvgAutowired
     private EmployeeService employeeService;
 
+    public void setDepartmentService(DepartmentService departmentService) {
+        this.departmentService = departmentService;
+    }
+
+    public void setEmployeeService(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+
     public void addDepartment(Department department) {
         departmentService.addDepartment(department);
     }
