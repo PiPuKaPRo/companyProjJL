@@ -5,14 +5,15 @@ import main.java.edu.vsu.sakovea.infra.beans.factory.stereotype.EvgService;
 import main.java.edu.vsu.sakovea.model.Department;
 import main.java.edu.vsu.sakovea.model.Employee;
 import main.java.edu.vsu.sakovea.repository.EmployeeRepository;
+import main.java.edu.vsu.sakovea.repository.MemoryEmployeeRepository;
 
 import java.util.List;
 @EvgService
 public class EmployeeService {
     @EvgAutowired
-    private EmployeeRepository employeeRepository;
+    private MemoryEmployeeRepository employeeRepository;
 
-    public void setEmployeeRepository(EmployeeRepository employeeRepository) {
+    public void setEmployeeRepository(MemoryEmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 

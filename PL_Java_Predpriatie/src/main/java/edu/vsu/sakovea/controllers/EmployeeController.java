@@ -5,6 +5,7 @@ import main.java.edu.vsu.sakovea.infra.beans.factory.stereotype.EvgComponent;
 import main.java.edu.vsu.sakovea.model.Department;
 import main.java.edu.vsu.sakovea.model.Employee;
 import main.java.edu.vsu.sakovea.repository.DepartmentRepository;
+import main.java.edu.vsu.sakovea.repository.MemoryDepartmentRepository;
 import main.java.edu.vsu.sakovea.service.CompanyService;
 
 import java.util.List;
@@ -12,11 +13,11 @@ import java.util.Scanner;
 
 @EvgComponent
 public class EmployeeController {
-    private Scanner scanner;
+    private final Scanner scanner = new Scanner(System.in);
     @EvgAutowired
     private Department departmentName;
     @EvgAutowired
-    private DepartmentRepository departmentRepository;
+    private MemoryDepartmentRepository departmentRepository;
     @EvgAutowired
     private CompanyService companyService;
 
@@ -24,7 +25,7 @@ public class EmployeeController {
         this.departmentName = departmentName;
     }
 
-    public void setDepartmentRepository(DepartmentRepository departmentRepository) {
+    public void setDepartmentRepository(MemoryDepartmentRepository departmentRepository) {
         this.departmentRepository = departmentRepository;
     }
 

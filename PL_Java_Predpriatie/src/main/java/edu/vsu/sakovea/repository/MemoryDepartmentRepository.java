@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @EvgComponent
-public class memoryDepartmentRepository implements DepartmentRepository{
+public class MemoryDepartmentRepository implements DepartmentRepository{
     private Map<String, Department> departmentStorage = new HashMap<>();
 
     @Override

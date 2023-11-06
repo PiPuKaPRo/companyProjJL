@@ -7,7 +7,7 @@ import main.java.edu.vsu.sakovea.model.Employee;
 import java.util.ArrayList;
 import java.util.List;
 @EvgComponent
-public class memoryEmployeeRepository implements EmployeeRepository {
+public class MemoryEmployeeRepository implements EmployeeRepository {
     private List<Employee> employeeStorage = new ArrayList<>();
 
     @Override

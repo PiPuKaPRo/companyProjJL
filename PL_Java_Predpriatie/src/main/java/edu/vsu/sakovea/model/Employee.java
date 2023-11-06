@@ -1,5 +1,8 @@
 package main.java.edu.vsu.sakovea.model;
 
+import main.java.edu.vsu.sakovea.infra.beans.factory.stereotype.EvgComponent;
+
+@EvgComponent
 public class Employee {
     private String fullName;
     private int age;
@@ -19,6 +22,8 @@ public class Employee {
         this.age = age;
         this.salary = salary;
     }
+
+    public Employee(){}
 
     public String getFullName() {
         return fullName;

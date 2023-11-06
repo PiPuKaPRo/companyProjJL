@@ -37,6 +37,7 @@ public class BeanFactory {
     public void instantiate(String basePackage) {
         String path = basePackage.replace('.', '/');
         scan(new File(getClass().getClassLoader().getResource(path).getFile()), basePackage);
+        System.out.println(singletons);
     }
 
     private void scan(File directory, String basePackage) {
