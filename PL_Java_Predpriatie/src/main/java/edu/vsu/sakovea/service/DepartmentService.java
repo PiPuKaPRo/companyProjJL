@@ -12,6 +12,10 @@ public class DepartmentService {
     @EvgAutowired
     private DepartmentRepository departmentRepository;
 
+    public void setDepartmentRepository(DepartmentRepository departmentRepository) {
+        this.departmentRepository = departmentRepository;
+    }
+
     public void addDepartment(Department department) {
         departmentRepository.addDepartment(department);
     }

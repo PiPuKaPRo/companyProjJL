@@ -20,6 +20,18 @@ public class EmployeeController {
     @EvgAutowired
     private CompanyService companyService;
 
+    public void setDepartmentName(Department departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public void setDepartmentRepository(DepartmentRepository departmentRepository) {
+        this.departmentRepository = departmentRepository;
+    }
+
+    public void setCompanyService(CompanyService companyService) {
+        this.companyService = companyService;
+    }
+
     public void createEmployee(){
         System.out.println("Введите ФИО сотрудника:");
         String fullName = scanner.nextLine();

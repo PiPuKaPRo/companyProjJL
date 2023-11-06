@@ -11,13 +11,25 @@ import java.util.Scanner;
 
 @EvgComponent
 public class DepartmentController {
+    private Scanner scanner;
     @EvgAutowired
     private Department departmentName;
-    private Scanner scanner;
     @EvgAutowired
     private CompanyService companyService;
     @EvgAutowired
     private DepartmentRepository departmentRepository;
+
+    public void setDepartmentName(Department departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public void setCompanyService(CompanyService companyService) {
+        this.companyService = companyService;
+    }
+
+    public void setDepartmentRepository(DepartmentRepository departmentRepository) {
+        this.departmentRepository = departmentRepository;
+    }
 
     public void createDepartment(){
         System.out.println("Введите название отдела:");

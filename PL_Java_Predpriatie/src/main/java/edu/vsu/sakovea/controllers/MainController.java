@@ -23,6 +23,14 @@ public class MainController {
     @EvgAutowired
     private DepartmentController departmentController;
 
+    public void setEmployeeController(EmployeeController employeeController) {
+        this.employeeController = employeeController;
+    }
+
+    public void setDepartmentController(DepartmentController departmentController) {
+        this.departmentController = departmentController;
+    }
+
     public void runApp() {
         while (true) {
             System.out.println("Выберите действие:");

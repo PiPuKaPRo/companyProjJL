@@ -15,12 +15,7 @@ import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BeanFactory {
     private Map<String, Object> singletons = new HashMap();
@@ -40,36 +35,34 @@ public class BeanFactory {
     }
 
     public void instantiate(String basePackage) {
-        try {
-            ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        String path = basePackage.replace('.', '/');
+        scan(new File(getClass().getClassLoader().getResource(path).getFile()), basePackage);
+    }
 
-            String path = basePackage.replace('.', '/');
-            Enumeration<URL> resources = classLoader.getResources(path);
+    private void scan(File directory, String basePackage) {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            return;
+        }
 
-            while (resources.hasMoreElements()) {
-                URL resource = resources.nextElement();
-                File file = new File(resource.toURI());
+        for (File file : files) {
+            if (file.isDirectory()) {
+                scan(file, basePackage + "." + file.getName());
+            } else if (file.getName().endsWith(".class")) {
+                String className = file.getName().substring(0, file.getName().length() - 6);
 
-                for (File classFile : file.listFiles()) {
-                    String fileName = classFile.getName();//ProductService.class
-                    System.out.println(fileName);
-                    if (fileName.endsWith(".class")) {
-                        String className = fileName.substring(0, fileName.lastIndexOf("."));
+                try {
+                    Class<?> classObject = Class.forName(basePackage + "." + className);
 
-                        Class classObject = Class.forName(basePackage + "." + className);
-
-                        if (classObject.isAnnotationPresent(EvgComponent.class) || classObject.isAnnotationPresent(EvgService.class)) {
-                            System.out.println("Component: " + classObject);
-
-                            Object instance = classObject.newInstance();//=new CustomClass()
-                            String beanName = className.substring(0, 1).toLowerCase() + className.substring(1);
-                            singletons.put(beanName, instance);
-                        }
+                    if (classObject.isAnnotationPresent(EvgComponent.class) || classObject.isAnnotationPresent(EvgService.class)) {
+                        Object instance = classObject.newInstance();
+                        String beanName = className.substring(0, 1).toLowerCase() + className.substring(1);
+                        singletons.put(beanName, instance);
                     }
+                } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                    e.printStackTrace();
                 }
             }
-        } catch (IOException | URISyntaxException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            e.printStackTrace();
         }
     }
 
@@ -84,7 +77,7 @@ public class BeanFactory {
                         if (dependency.getClass().equals(field.getType())) {
                             String setterName = "set" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
                             System.out.println("Setter name = " + setterName);
-                            Method setter = object.getClass().getMethod(setterName, dependency.getClass());
+                            Method setter = object.getClass().getDeclaredMethod(setterName, dependency.getClass());
                             setter.invoke(object, dependency);
                         }
                     }

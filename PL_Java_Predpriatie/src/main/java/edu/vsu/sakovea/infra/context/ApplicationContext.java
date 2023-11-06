@@ -10,9 +10,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 public class ApplicationContext {
-    private BeanFactory beanFactory = new BeanFactory();
+    private final BeanFactory beanFactory = new BeanFactory();
 
-    public ApplicationContext(String basePackage) throws ReflectiveOperationException{
+    public ApplicationContext(String basePackage) throws ReflectiveOperationException {
         System.out.println("******Context is under construction******");
 
         beanFactory.instantiate(basePackage);
@@ -39,5 +39,9 @@ public class ApplicationContext {
                 }
             }
         }
+    }
+
+    public BeanFactory getBeanFactory() {
+        return beanFactory;
     }
 }
