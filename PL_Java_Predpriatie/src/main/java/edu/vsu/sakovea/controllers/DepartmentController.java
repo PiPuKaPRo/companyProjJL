@@ -3,6 +3,7 @@ package main.java.edu.vsu.sakovea.controllers;
 import main.java.edu.vsu.sakovea.infra.beans.factory.annotation.EvgAutowired;
 import main.java.edu.vsu.sakovea.infra.beans.factory.stereotype.EvgComponent;
 import main.java.edu.vsu.sakovea.model.Department;
+import main.java.edu.vsu.sakovea.repository.DbDepartmentRepository;
 import main.java.edu.vsu.sakovea.repository.DepartmentRepository;
 import main.java.edu.vsu.sakovea.repository.MemoryDepartmentRepository;
 import main.java.edu.vsu.sakovea.service.CompanyService;
@@ -18,7 +19,7 @@ public class DepartmentController {
     @EvgAutowired
     private CompanyService companyService;
     @EvgAutowired
-    private MemoryDepartmentRepository departmentRepository;
+    private DbDepartmentRepository dbDepartmentRepository;
 
     public void setDepartmentName(Department departmentName) {
         this.departmentName = departmentName;
@@ -28,8 +29,8 @@ public class DepartmentController {
         this.companyService = companyService;
     }
 
-    public void setDepartmentRepository(MemoryDepartmentRepository departmentRepository) {
-        this.departmentRepository = departmentRepository;
+    public void setDbDepartmentRepository(DbDepartmentRepository dbDepartmentRepository) {
+        this.dbDepartmentRepository = dbDepartmentRepository;
     }
 
     public void createDepartment(){
@@ -41,15 +42,16 @@ public class DepartmentController {
 
     public void deleteDepartment(){
         System.out.println("Введите название отдела для удаления:");
+        int id = scanner.nextInt();
         departmentName.setName(scanner.nextLine());
-        Department departmentToRemove = new Department(departmentName.getName());
+        Department departmentToRemove = new Department(id);
         companyService.deleteDepartment(departmentToRemove);
     }
     public void showAllDepartment(){
-        List<Department> allDepartments = departmentRepository.getAllDepartments();
+        List<Department> allDepartments = dbDepartmentRepository.getAllDepartments();
         System.out.println("Список отделов:");
         for (Department dep : allDepartments) {
-            System.out.println("Название: " + dep.getName() + ", Количество сотрудников: " + dep.getNumberOfEmployees());
+            System.out.println("Название: " + dep.getName() + ", Количество сотрудников: " + dep.getEmployees().size());
         }
     }
 }

@@ -4,6 +4,7 @@ import main.java.edu.vsu.sakovea.infra.beans.factory.annotation.EvgAutowired;
 import main.java.edu.vsu.sakovea.infra.beans.factory.stereotype.EvgComponent;
 import main.java.edu.vsu.sakovea.model.Department;
 import main.java.edu.vsu.sakovea.model.Employee;
+import main.java.edu.vsu.sakovea.repository.DbDepartmentRepository;
 import main.java.edu.vsu.sakovea.repository.DepartmentRepository;
 import main.java.edu.vsu.sakovea.repository.MemoryDepartmentRepository;
 import main.java.edu.vsu.sakovea.service.CompanyService;
@@ -17,7 +18,7 @@ public class EmployeeController {
     @EvgAutowired
     private Department departmentName;
     @EvgAutowired
-    private MemoryDepartmentRepository departmentRepository;
+    private DbDepartmentRepository dbDepartmentRepository;
     @EvgAutowired
     private CompanyService companyService;
 
@@ -25,8 +26,8 @@ public class EmployeeController {
         this.departmentName = departmentName;
     }
 
-    public void setDepartmentRepository(MemoryDepartmentRepository departmentRepository) {
-        this.departmentRepository = departmentRepository;
+    public void setDbDepartmentRepository(DbDepartmentRepository dbDepartmentRepository) {
+        this.dbDepartmentRepository = dbDepartmentRepository;
     }
 
     public void setCompanyService(CompanyService companyService) {
@@ -42,9 +43,9 @@ public class EmployeeController {
         double salary = scanner.nextDouble();
         scanner.nextLine();
         System.out.println("Введите название отдела, в котором работает сотрудник:");
-        departmentName.setName(scanner.nextLine());
+        departmentName.setId(Integer.parseInt(scanner.nextLine()));
         Employee employee = new Employee(fullName, age, salary);
-        Department employeeDepartment = departmentRepository.getDepartmentByName(departmentName.getName());
+        Department employeeDepartment = dbDepartmentRepository.getDepartmentById(departmentName.getId());
         if (employeeDepartment != null) {
             companyService.addEmployee(employee, employeeDepartment);
         } else {
@@ -56,10 +57,10 @@ public class EmployeeController {
         System.out.println("Введите ФИО сотрудника для удаления:");
         String employeeFullName = scanner.nextLine();
         System.out.println("Введите название отдела, из которого удалить сотрудника:");
-        departmentName.setName(scanner.nextLine());
+        departmentName.setId(Integer.parseInt(scanner.nextLine()));
 
         Employee employeeToRemove = new Employee(employeeFullName, 0, 0);
-        Department departmentToRemoveFrom = departmentRepository.getDepartmentByName(departmentName.getName());
+        Department departmentToRemoveFrom = dbDepartmentRepository.getDepartmentById(departmentName.getId());
 
         if (departmentToRemoveFrom != null) {
             companyService.deleteEmployee(employeeToRemove, departmentToRemoveFrom);
@@ -72,13 +73,13 @@ public class EmployeeController {
     public void showAllEmployeeInDepartment(){
         System.out.println("Введите название отдела для вывода сотрудников:");
         departmentName.setName(scanner.nextLine());
-        Department departmentToDisplay = departmentRepository.getDepartmentByName(departmentName.getName());
+        Department departmentToDisplay = dbDepartmentRepository.getDepartmentByName(departmentName.getName());
 
         if (departmentToDisplay != null) {
             List<Employee> departmentEmployees = companyService.getEmployeesInDepartment(departmentToDisplay);
             System.out.println("Сотрудники в отделе " + departmentToDisplay.getName() + ":");
             for (Employee emp : departmentEmployees) {
-                System.out.println("ФИО: " + emp.getFullName() + ", Возраст: " + emp.getAge() + ", ЗП: " + emp.getSalary());
+                System.out.println("ФИО: " + emp.getFull_name() + ", Возраст: " + emp.getAge() + ", ЗП: " + emp.getSalary());
             }
         } else {
             System.out.println("Отдел не найден.");

@@ -31,4 +31,9 @@ public class MemoryDepartmentRepository implements DepartmentRepository{
     public Department getDepartmentByName(String name) {
         return departmentStorage.get(name);
     }
+
+    @Override
+    public Department getDepartmentById(int id) {
+        return null;
+    }
 }

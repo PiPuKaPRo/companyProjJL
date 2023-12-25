@@ -3,6 +3,8 @@ package main.java.edu.vsu.sakovea.infra.orm;
 import main.java.edu.vsu.sakovea.infra.orm.annotations.*;
 
 import java.lang.reflect.Field;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class AnnotationProcessor {
     public static List<String> getColumnNames(Class<?> clazz) {
         List<String> columnNames = new ArrayList<>();
         for (Field field : clazz.getDeclaredFields()) {
+            if (field.isAnnotationPresent(OneToMany.class) || field.isAnnotationPresent(Id.class)) continue;
             Column columnAnnotation = field.getAnnotation(Column.class);
             String columnName = (columnAnnotation != null && !columnAnnotation.name().isEmpty()) ? columnAnnotation.name() : field.getName();
             columnNames.add(columnName);
@@ -59,5 +62,22 @@ public class AnnotationProcessor {
 
     public static boolean isEntity(Class<?> clazz){
         return clazz.isAnnotationPresent(Entity.class);
+    }
+
+    public static <T> T mapResultSetToEntity(Class<T> clazz, ResultSet resultSet) throws SQLException {
+        try {
+            T entity = clazz.getDeclaredConstructor().newInstance();
+
+            for (Field field : clazz.getDeclaredFields()) {
+                if (field.isAnnotationPresent(OneToMany.class)) continue;
+                field.setAccessible(true);
+                Object value = resultSet.getObject(field.getName());
+                field.set(entity, value);
+            }
+
+            return entity;
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException("Error mapping ResultSet to entity", e);
+        }
     }
 }

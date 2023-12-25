@@ -1,5 +1,6 @@
 package main.java.edu.vsu.sakovea.service;
 
+import lombok.Data;
 import main.java.edu.vsu.sakovea.infra.beans.factory.annotation.EvgAutowired;
 import main.java.edu.vsu.sakovea.infra.beans.factory.stereotype.EvgService;
 import main.java.edu.vsu.sakovea.model.Department;
@@ -9,18 +10,26 @@ import java.util.List;
 
 @EvgService
 public class CompanyService {
-    @EvgAutowired
-    private DepartmentService departmentService;
-    @EvgAutowired
-    private EmployeeService employeeService;
+    public DepartmentService getDepartmentService() {
+        return departmentService;
+    }
 
     public void setDepartmentService(DepartmentService departmentService) {
         this.departmentService = departmentService;
     }
 
+    public EmployeeService getEmployeeService() {
+        return employeeService;
+    }
+
     public void setEmployeeService(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
+
+    @EvgAutowired
+    private DepartmentService departmentService;
+    @EvgAutowired
+    private EmployeeService employeeService;
 
     public void addDepartment(Department department) {
         departmentService.addDepartment(department);

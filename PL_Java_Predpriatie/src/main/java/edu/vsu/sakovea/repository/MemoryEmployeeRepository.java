@@ -13,20 +13,18 @@ public class MemoryEmployeeRepository implements EmployeeRepository {
     @Override
     public void addEmployee(Employee employee, Department department) {
         employeeStorage.add(employee);
-        department.increaseEmployeeCount();
     }
 
     @Override
     public void deleteEmployee(Employee employee, Department department) {
         employeeStorage.remove(employee);
-        department.decreaseEmployeeCount();
     }
 
     @Override
     public List<Employee> getEmployeesInDepartment(Department department) {
         List<Employee> departmentEmployees = new ArrayList<>();
         for (Employee employee : employeeStorage) {
-            if (employee.getDepartmentName().equals(department.getName())) {
+            if (employee.getDepartmentName() != null && employee.getDepartmentName().equals(department.getName())) {
                 departmentEmployees.add(employee);
             }
         }
